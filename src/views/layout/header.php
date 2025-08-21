@@ -1,4 +1,4 @@
-<?php require_once dirname(dirname(__DIR__)) . '/helpers/languages.php'; ?>
+<?php require_once dirname(dirname(__DIR__)) . '/Helpers/languages.php'; ?>
 
 <!DOCTYPE html>
 <html lang="bg-BG">

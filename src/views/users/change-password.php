@@ -1,6 +1,6 @@
 <?php require dirname(__DIR__) . '/layout/header.php'; ?>
 <?php require dirname(__DIR__) . '/layout/navbar.php'; ?>
-<?php require_once dirname(dirname(__DIR__)) . '/helpers/languages.php'; ?>
+<?php require_once dirname(dirname(__DIR__)) . '/Helpers/languages.php'; ?>
 
 <main>
     <div class="container mx-auto px-4">

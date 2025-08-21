@@ -11,7 +11,7 @@ use App\Validations\UserValidator;
 use App\Repositories\UserRepository;
 use App\Services\UserService;
 
-require_once dirname(__DIR__) . '/helpers/languages.php';
+require_once dirname(__DIR__) . '/Helpers/languages.php';
 
 class UserController
 {
@@ -150,6 +150,7 @@ class UserController
         View::render('users/change-password', [
             'title' => __('change_password_title'),
             'token' => $token,
+            'captcha' => $this->generateCaptchaBase64(),
         ]);
     }
 
