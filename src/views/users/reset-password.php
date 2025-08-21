@@ -4,19 +4,19 @@
 
 <main>
     <div class="container mx-auto px-4">
-        <h1 class="my-5 text-3xl text-center"><?= __('login') ?></h1>
+        <h1 class="my-5 text-3xl text-center"><?= __('reset_password') ?></h1>
 
+        
         <div class="bg-white py-3 px-4 lg:p-8 border border-gray-300 rounded shadow-sm max-w-2xl mx-auto">
-            <form action="/users/login" method="POST" class="space-y-4">
-                <div>
-                    <label for="email" class="block font-medium text-gray-700">Имейл адрес</label>
-                    <input type="email" name="email" id="email" required placeholder="Напишете имейл адресът си"
-                        class="mt-1 block w-full rounded border border-gray-300 px-3 py-2 text-gray-900 focus:border-blue-500 focus:ring-blue-500 focus:outline-none" />
-                </div>
+            <p class="mb-5 text-gray-600">
+                За да възстановите паролата си, моля, въведете вашия имейл адрес в полето по-долу. Ще получите имейл с линк
+                за нулиране на паролата.
+            </p>
 
+            <form action="/users/reset-password" method="POST" class="space-y-4">
                 <div>
-                    <label for="password" class="block font-medium text-gray-700">Парола</label>
-                    <input type="password" name="password" id="password" required placeholder="Напишете паролата си"
+                    <label for="email" class="block"><?= __('email_address') ?></label>
+                    <input type="email" name="email" id="email" required placeholder="<?= __('enter_email_address') ?>"
                         class="mt-1 block w-full rounded border border-gray-300 px-3 py-2 text-gray-900 focus:border-blue-500 focus:ring-blue-500 focus:outline-none" />
                 </div>
 
@@ -31,18 +31,14 @@
 
                 <button type="submit"
                     class="rounded-lg bg-blue-600 px-4 py-2 text-white font-semibold shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                    Вход в акаунта
+                    <?= __('submit_link') ?>
                 </button>
             </form>
 
             <p class="mt-6 text-gray-600">
             <div>
-                Все още нямате акаунт?
-                <a href="/users/register" class="text-blue-600 hover:underline">Създаване на акаунт</a>
-            </div>
-            <div>
-                Забравихте паролата си?
-                <a href="/users/reset-password" class="text-blue-600 hover:underline">Смяна на паролата</a>
+                <?= __('remember_password') ?>?
+                <a href="/users/login" class="text-blue-600 hover:underline"><?= __('login') ?></a>
             </div>
             </p>
         </div>

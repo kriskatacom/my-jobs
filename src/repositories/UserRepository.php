@@ -68,7 +68,24 @@ class UserRepository
         return $category ?: null;
     }
 
-    function getUserCount(PDO $pdo): int
+    public function savePasswordResetToken(string $token, int $userId): bool
+    {
+        $expiration = time() + 3600;
+
+        $stmt = $this->db->prepare("
+        UPDATE users 
+        SET password_reset_token = :token, token_expiration = :expiration 
+        WHERE id = :id
+    ");
+
+        return $stmt->execute([
+            ':token' => $token,
+            ':expiration' => $expiration,
+            ':id' => $userId
+        ]);
+    }
+
+    public function getUserCount(PDO $pdo): int
     {
         $stmt = $pdo->query("SELECT COUNT(*) FROM users");
         return (int) $stmt->fetchColumn();

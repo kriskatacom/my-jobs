@@ -69,19 +69,34 @@ class UserValidator
         $user = $userRepository->findByEmail($data['email']);
 
         if ($user === null) {
-            View::render('users/login', [
-                'title' => 'Вход',
-                'error' => 'Имейл адресът или паролата са невалидни.',
-                'captcha' => UserService::generateCaptchaBase64()
-            ]);
+            return "Имейл адресът или паролата са невалидни.";
         }
 
         if (!password_verify($data['password'], $user['password'])) {
-            View::render('users/login', [
-                'title' => 'Вход',
-                'error' => 'Имейл адресът или паролата са невалидни.',
-                'captcha' => UserService::generateCaptchaBase64()
-            ]);
+            return "Имейл адресът или паролата са невалидни.";
+        }
+
+        return null;
+    }
+
+    public static function validateResetPassword(array $data, $userRepository): string|null
+    {
+        if (empty($data['email'])) {
+            return "Имейлът е задължителен.";
+        }
+
+        if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+            return "Имейлът трябва да бъде валиден.";
+        }
+
+        if (strlen($data['email']) > 150) {
+            return "Имейлът не може да бъде по-дълъг от 150 символа.";
+        }
+
+        $user = $userRepository->findByEmail($data['email']);
+
+        if (!$user) {
+            return "Потребител с този имейл адрес не съществува.";
         }
 
         return null;
