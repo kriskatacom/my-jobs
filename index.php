@@ -22,6 +22,7 @@ $router = new Router();
 
 $router->get('/', [HomeController::class, 'index']);
 $router->get('/users/register', [UserController::class, 'getRegister']);
+$router->post('/users/register', [UserController::class, 'postRegister']);
 
 session_start();
 

@@ -27,12 +27,17 @@ class UserRepository
         $sql = "INSERT INTO users (name, email, password, role)
             VALUES (:name, :email, :password, :role)";
 
+
+
+        $numberOfUsers = $this->getUserCount($this->db);
+        $role = $numberOfUsers === 0 ? 'admin' : 'user';
+
         $stmt = $this->db->prepare($sql);
         $success = $stmt->execute([
             ':name' => $data['name'],
             ':email' => $data['email'],
             ':password' => password_hash($data['password'], PASSWORD_DEFAULT),
-            ':role' => $data['role'] ?? 'user'
+            ':role' => $role,
         ]);
 
         if (!$success) {
@@ -61,5 +66,11 @@ class UserRepository
         $category = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return $category ?: null;
+    }
+
+    function getUserCount(PDO $pdo): int
+    {
+        $stmt = $pdo->query("SELECT COUNT(*) FROM users");
+        return (int) $stmt->fetchColumn();
     }
 }
