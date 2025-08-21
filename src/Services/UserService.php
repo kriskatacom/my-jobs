@@ -75,23 +75,36 @@ class UserService
 
         $width = 150;
         $height = 50;
+
+        $smallWidth = 75;
+        $smallHeight = 25;
+        $smallImage = imagecreate($smallWidth, $smallHeight);
+
+        $bg_color_small = imagecolorallocate($smallImage, 255, 255, 255);
+        $text_color_small = imagecolorallocate($smallImage, 0, 0, 0);
+
+        imagestring($smallImage, 5, 10, 5, $captcha_code, $text_color_small);
+
         $image = imagecreate($width, $height);
-
         $bg_color = imagecolorallocate($image, 255, 255, 255);
-        imagefill($image, 0, 0, $bg_color);
 
-        $text_color = imagecolorallocate($image, 0, 0, 0);
+        imagecopyresized(
+            $image, $smallImage,
+            0, 0, 0, 0,
+            $width, $height,
+            $smallWidth, $smallHeight
+        );
+
         $noise_color = imagecolorallocate($image, 100, 120, 180);
-
         for ($i = 0; $i < 100; $i++) {
             imagefilledellipse($image, rand(0, $width), rand(0, $height), 2, 3, $noise_color);
         }
 
-        imagestring($image, 5, 30, 15, $captcha_code, $text_color);
-
         ob_start();
         imagepng($image);
         $imageData = ob_get_clean();
+
+        imagedestroy($smallImage);
         imagedestroy($image);
 
         return 'data:image/png;base64,' . base64_encode($imageData);

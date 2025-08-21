@@ -11,21 +11,21 @@ $class_names = 'class="hover:text-green-500 transition-colors duration-300"';
         </div>
         <ul class="flex justify-center items-center gap-5 py-5">
             <li>
-                <a href="/" <?= $class_names ?> title="<?= __('home_title') ?>"><?= __('home') ?></a>
+                <a href="/" <?= $class_names ?> title="<?= __('home') ?>"><?= __('home') ?></a>
             </li>
             <?php if (isset($_SESSION['user']) && !empty($_SESSION['user']['id'])): ?>
                 <li>
-                    <a href="/users/profile" <?= $class_names ?> title="<?= __('profile_title') ?>"><?= __('hello') ?>, <?= $_SESSION['user']['name'] ?></a>
+                    <a href="/users/profile" <?= $class_names ?> title="<?= __('account') ?>"><?= __('hello') ?>, <?= $_SESSION['user']['name'] ?></a>
                 </li>
                 <li>
-                    <a href="/users/logout" <?= $class_names ?> title="<?= __('logout_title') ?>"><?= __('logout') ?></a>
+                    <a href="/users/logout" <?= $class_names ?> title="<?= __('logout') ?>"><?= __('logout') ?></a>
                 </li>
             <?php else: ?>
                 <li>
-                    <a href="/users/register" <?= $class_names ?> title="<?= __('register_title') ?>"><?= __('register') ?></a>
+                    <a href="/users/register" <?= $class_names ?> title="<?= __('register') ?>"><?= __('register') ?></a>
                 </li>
                 <li>
-                    <a href="/users/login" <?= $class_names ?> title="<?= __('login_title') ?>"><?= __('login') ?></a>
+                    <a href="/users/login" <?= $class_names ?> title="<?= __('login') ?>"><?= __('login') ?></a>
                 </li>
             <?php endif; ?>
         </ul>

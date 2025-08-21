@@ -8,6 +8,10 @@ class UserValidator
 {
     public static function validateCreate(array $data): string|null
     {
+        if (empty($data['captcha']) || strtolower($data['captcha']) !== strtolower($_SESSION['captcha'])) {
+            return "Моля, препишете правилно кодът от CAPTCHA.";
+        }
+        
         if (empty($data['name'])) {
             return "Името на потребителя е задължително.";
         }
@@ -45,6 +49,10 @@ class UserValidator
 
     public static function validateLogin(array $data, UserRepository $userRepository): string|null
     {
+        if (empty($data['captcha']) || strtolower($data['captcha']) !== strtolower($_SESSION['captcha'])) {
+            return "Моля, препишете правилно кодът от CAPTCHA.";
+        }
+
         if (empty($data['email'])) {
             return "Имейлът е задължителен.";
         }
@@ -64,7 +72,7 @@ class UserValidator
         if (strlen($data['password']) < 6) {
             return "Паролата трябва да бъде поне 6 символа.";
         }
-
+        
         $user = $userRepository->findByEmail($data['email']);
 
         if (!$user) {
@@ -80,6 +88,10 @@ class UserValidator
 
     public static function validateResetPassword(array $data, $userRepository): string|null
     {
+        if (empty($data['captcha']) || strtolower($data['captcha']) !== strtolower($_SESSION['captcha'])) {
+            return "Моля, препишете правилно кодът от CAPTCHA.";
+        }
+
         if (empty($data['email'])) {
             return "Имейлът е задължителен.";
         }
@@ -103,6 +115,10 @@ class UserValidator
 
     public static function validateChangePassword(array $data): string|null
     {
+        if (empty($data['captcha']) || strtolower($data['captcha']) !== strtolower($_SESSION['captcha'])) {
+            return "Моля, препишете правилно кодът от CAPTCHA.";
+        }
+        
         if (empty($data['password'])) {
             return "Паролата е задължителна.";
         }

@@ -30,12 +30,12 @@ class UserController
 
     public function getRegister(): void
     {
-        // Генерираме captcha като Base64
-        // $captchaBase64 = $this->generateCaptchaBase64();
+        $captchaBase64 = $this->generateCaptchaBase64();
 
         View::render('users/register', [
-            'title' => 'Регистрация',
-            'captcha' => ''
+            'title' => __('register'),
+            'captcha' => $captchaBase64,
+            'data' => [],
         ]);
     }
 
@@ -43,29 +43,27 @@ class UserController
     {
         $data = $_POST;
 
-        // Проверка на captcha
-        // if (empty($data['captcha']) || strtolower($data['captcha']) !== strtolower($_SESSION['captcha'])) {
-        //     $error = "Captcha е грешна.";
-        //     View::render('users/register', ['title' => 'Регистрация', 'error' => $error, 'captcha' => $this->generateCaptchaBase64()]);
-        //     return;
-        // }
-
         if ($error = UserValidator::validateCreate($data)) {
-            View::render('users/register', ['title' => 'Регистрация', 'error' => $error, 'captcha' => $this->generateCaptchaBase64()]);
+            View::render('users/register', [
+                'title' => __('register'),
+                'error' => $error,
+                'captcha' => $this->generateCaptchaBase64()
+            ]);
             return;
         }
 
-        $newUser = $this->userRepository->create($data);
-        View::redirect('/');
+        $this->userRepository->create($data);
+        View::redirect('/users/login');
     }
 
     public function getLogin(): void
     {
-        // $captchaBase64 = $this->generateCaptchaBase64();
+        $captchaBase64 = $this->generateCaptchaBase64();
 
         View::render('users/login', [
             'title' => 'Вход',
-            'captcha' => ''
+            'data' => [],
+            'captcha' => $captchaBase64,
         ]);
     }
 
@@ -77,7 +75,8 @@ class UserController
             View::render('users/login', [
                 'title' => 'Вход',
                 'error' => $error,
-                'captcha' => ''
+                'captcha' => $this->generateCaptchaBase64(),
+                'data' => $data,
             ]);
             return;
         }
@@ -90,11 +89,11 @@ class UserController
 
     public function getResetPassword(): void
     {
-        // $captchaBase64 = $this->generateCaptchaBase64();
+        $captchaBase64 = $this->generateCaptchaBase64();
 
         View::render('users/reset-password', [
             'title' => 'Възстановяване на паролата',
-            'captcha' => ''
+            'captcha' => $captchaBase64,
         ]);
     }
 

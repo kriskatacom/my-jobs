@@ -10,7 +10,7 @@
             <form action="/users/login" method="POST" class="space-y-4">
                 <div>
                     <label for="email" class="block font-medium text-gray-700">Имейл адрес</label>
-                    <input type="email" name="email" id="email" required placeholder="Напишете имейл адресът си"
+                    <input type="email" name="email" value="<?= $data['email'] ?? '' ?>" id="email" required placeholder="Напишете имейл адресът си"
                         class="mt-1 block w-full rounded border border-gray-300 px-3 py-2 text-gray-900 focus:border-blue-500 focus:ring-blue-500 focus:outline-none" />
                 </div>
 
@@ -20,10 +20,11 @@
                         class="mt-1 block w-full rounded border border-gray-300 px-3 py-2 text-gray-900 focus:border-blue-500 focus:ring-blue-500 focus:outline-none" />
                 </div>
 
-                <!-- <div class="flex items-center space-x-4">
-                    <img src="<= $captcha ?>" alt="Captcha" class="border rounded" />
-                    <input type="text" name="captcha" placeholder="Въведете кода" required class="...">
-                </div> -->
+                <div>
+                    <label for="captcha" class="block"><?= __('enter_code') ?></label>
+                    <input type="text" name="captcha" placeholder="<?= __('enter_image_code') ?>" required class="my-1 block w-full rounded border border-gray-300 px-3 py-2 text-gray-900 focus:border-blue-500 focus:ring-blue-500 focus:outline-none">
+                    <img src="<?= $captcha ?>" alt="Captcha" class="border rounded" />
+                </div>
 
                 <?php if (!empty($error)): ?>
                     <p class="text-red-600"><?= $error ?></p>
