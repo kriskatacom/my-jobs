@@ -42,28 +42,52 @@ class Router
         $uri = parse_url($uri, PHP_URL_PATH);
 
         foreach ($this->routes as $route) {
-            if ($method !== $route['method']) {
+            if (strtoupper($method) !== strtoupper($route['method'])) {
                 continue;
             }
 
             if (preg_match($route['pattern'], $uri, $matches)) {
+                // Numeric array за call_user_func_array (работи на всички PHP версии)
                 $params = [];
                 foreach ($route['params'] as $param) {
-                    $params[$param] = $matches[$param] ?? null;
+                    $params[] = $matches[$param] ?? null;
                 }
 
                 // Middleware
                 foreach ($route['middleware'] as $middlewareClass) {
-                    $middleware = new $middlewareClass;
+                    if (!class_exists($middlewareClass)) {
+                        error_log("Middleware class not found: $middlewareClass");
+                        continue;
+                    }
+                    $middleware = new $middlewareClass();
                     if (method_exists($middleware, 'handle')) {
-                        $middleware->handle($params);
+                        $middleware->handle($matches); // подаваме $matches ако middleware иска имената
                     }
                 }
 
+                // Контролер
                 [$controllerClass, $methodName] = $route['action'];
-                $controller = new $controllerClass();
-                call_user_func_array([$controller, $methodName], $params);
+                
 
+                if (!class_exists($controllerClass)) {
+                    error_log("Controller class not found: $controllerClass");
+                    http_response_code(500);
+                    echo "Internal Server Error: Controller not found";
+                    return;
+                }
+                
+
+                $controller = new $controllerClass();
+                
+
+                if (!method_exists($controller, $methodName)) {
+                    error_log("Method $methodName not found in controller $controllerClass");
+                    http_response_code(500);
+                    echo "Internal Server Error: Method not found";
+                    return;
+                }
+
+                call_user_func_array([$controller, $methodName], $params);
                 return;
             }
         }

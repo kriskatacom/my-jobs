@@ -1,3 +1,19 @@
+CREATE TABLE IF NOT EXISTS users (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(100) NOT NULL,
+    `email` VARCHAR(150) NOT NULL UNIQUE,
+    `password` VARCHAR(255) NOT NULL,
+    `role` ENUM('admin', 'user') DEFAULT 'user',
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO users (name, email, password, role) VALUES
+('Иван Петров', 'ivan@example.com', SHA2('123456', 256), 'user'),
+('Мария Георгиева', 'maria@example.com', SHA2('password123', 256), 'user'),
+('Админ Админов', 'admin@example.com', SHA2('adminpass', 256), 'admin'),
+('Георги Иванов', 'georgi@example.com', SHA2('qwerty', 256), 'user');
+
+
 CREATE TABLE IF NOT EXISTS job_categories (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
     `category_id` INT NULL,
