@@ -29,10 +29,12 @@ $router->get('/users/register', [UserController::class, 'getRegister'], [IsNotAu
 $router->get('/users/login', [UserController::class, 'getLogin'], [IsNotAuthenticated::class]);
 $router->get('/users/logout', [UserController::class, 'getLogout'], [IsAuthenticated::class]);
 $router->get('/users/reset-password', [UserController::class, 'getResetPassword'], [IsNotAuthenticated::class]);
+$router->get('/users/change-password/{token}', [UserController::class, 'getChangePassword'], [IsNotAuthenticated::class]);
 
 $router->post('/users/register', [UserController::class, 'postRegister'], [IsNotAuthenticated::class]);
 $router->post('/users/login', [UserController::class, 'postLogin'], [IsNotAuthenticated::class]);
 $router->post('/users/reset-password', [UserController::class, 'postResetPassword'], [IsNotAuthenticated::class]);
+$router->post('/users/change-password', [UserController::class, 'postChangePassword'], [IsNotAuthenticated::class]);
 
 session_start();
 

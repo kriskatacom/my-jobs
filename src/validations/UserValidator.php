@@ -2,8 +2,7 @@
 
 namespace App\Validations;
 
-use Core\View;
-use App\Services\UserService;
+use App\Repositories\UserRepository;
 
 class UserValidator
 {
@@ -44,7 +43,7 @@ class UserValidator
         return null;
     }
 
-    public static function validateLogin(array $data, $userRepository): string|null
+    public static function validateLogin(array $data, UserRepository $userRepository): string|null
     {
         if (empty($data['email'])) {
             return "Имейлът е задължителен.";
@@ -68,7 +67,7 @@ class UserValidator
 
         $user = $userRepository->findByEmail($data['email']);
 
-        if ($user === null) {
+        if (!$user) {
             return "Имейл адресът или паролата са невалидни.";
         }
 
@@ -97,6 +96,19 @@ class UserValidator
 
         if (!$user) {
             return "Потребител с този имейл адрес не съществува.";
+        }
+
+        return null;
+    }
+
+    public static function validateChangePassword(array $data): string|null
+    {
+        if (empty($data['password'])) {
+            return "Паролата е задължителна.";
+        }
+
+        if (strlen($data['password']) < 6) {
+            return "Паролата трябва да бъде поне 6 символа.";
         }
 
         return null;

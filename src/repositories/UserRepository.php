@@ -85,6 +85,33 @@ class UserRepository
         ]);
     }
 
+    public function findByPasswordResetToken(string $token): ?array
+    {
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE password_reset_token = :token LIMIT 1");
+        $stmt->execute([':token' => $token]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $user ?: null;
+    }
+
+    public function updatePassword(int $userId): bool
+    {
+        $stmt = $this->db->prepare("
+        UPDATE users 
+        SET password = :password, 
+            password_reset_token = :token, 
+            token_expiration = :expiration 
+        WHERE id = :id
+    ");
+
+        return $stmt->execute([
+            ':password' => password_hash($_POST['password'], PASSWORD_DEFAULT),
+            ':token' => null,
+            ':expiration' => null,
+            ':id' => $userId
+        ]);
+    }
+
     public function getUserCount(PDO $pdo): int
     {
         $stmt = $pdo->query("SELECT COUNT(*) FROM users");

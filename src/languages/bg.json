@@ -1,4 +1,5 @@
 {
+    "website_title": "My Jobs",
     "job_announcements": "Обяви за работа",
     "announcements": "Обяви",
     "home": "Начало",
@@ -11,8 +12,15 @@
     "reset_password": "Възстановяване на паролата",
     "submit_link": "Изпращане на линк",
     "email_address": "Имейл адрес",
+    "password": "Парола",
+    "new_password": "Нова парола",
     "remember_password": "Спомняте си паролата",
+    "change_password": "Свяна на паролата",
+    "change_password_confirm": "Потвърдете смяната на паролата",
+    "confirm_password": "Потвърдете паролата",
     "enter_email_address": "Напишете имейл адресът си",
+    "enter_password": "Напишете нава парола",
+    "enter_confirm_password": "Повторете навата си парола",
     "forgot_password_sent": "Линкът за възстановяване на паролата е изпратен на вашия имейл адрес.",
     "email_send_failed": "Неуспешно изпращане на имейл."
 }

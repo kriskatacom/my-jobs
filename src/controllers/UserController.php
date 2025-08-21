@@ -74,7 +74,11 @@ class UserController
         $data = $_POST;
 
         if ($error = UserValidator::validateLogin($data, $this->userRepository)) {
-            View::render('users/login', ['title' => 'Вход', 'error' => $error, 'captcha' => $this->generateCaptchaBase64()]);
+            View::render('users/login', [
+                'title' => 'Вход',
+                'error' => $error,
+                'captcha' => ''
+            ]);
             return;
         }
 
@@ -97,7 +101,7 @@ class UserController
     public function postResetPassword(): void
     {
         $data = $_POST;
-        
+
         if ($error = UserValidator::validateResetPassword($data, $this->userRepository)) {
             View::render('users/login', ['title' => 'Вход', 'error' => $error, 'captcha' => $this->generateCaptchaBase64()]);
             return;
@@ -131,6 +135,56 @@ class UserController
                 'error' => ['email' => __('email_send_failed')]
             ]);
         }
+    }
+
+    public function getChangePassword(string $token): void
+    {
+        $user = $this->userRepository->findByPasswordResetToken($token);
+
+        if (!$user || $user['token_expiration'] < time()) {
+            $_SESSION['message_error'] = __('invalid_token');
+            View::redirect('/users/reset-password');
+        }
+
+        $_SESSION['reset_token'] = $token;
+
+        View::render('users/change-password', [
+            'title' => __('change_password_title'),
+            'token' => $token,
+        ]);
+    }
+
+    public function postChangePassword(): void
+    {
+        $formData = $_POST;
+        $errors = UserValidator::validateChangePassword($formData);
+
+        if (!empty($errors)) {
+            View::render('users/change_password', [
+                'title' => __('change_password_title'),
+                'errors' => $errors,
+            ]);
+            return;
+        }
+
+        $user = $this->userRepository->findByPasswordResetToken($_SESSION['reset_token']);
+        if (!$user || $user['token_expiration'] < time()) {
+            $_SESSION['message_error'] = __('invalid_token');
+            View::redirect('/users/reset-password');
+        }
+
+        
+        if (!$this->userRepository->updatePassword($user['id'])) {
+            $_SESSION['message_error'] = __('password_change_failed');
+            View::render('users/change-password', [
+                'title' => __('change_password_title'),
+                'error' => __('password_change_failed'),
+            ]);
+            return;
+        }
+
+        $_SESSION['message_success'] = __('password_changed_successfully');
+        View::redirect('/users/login');
     }
 
     public function getLogout(): void
