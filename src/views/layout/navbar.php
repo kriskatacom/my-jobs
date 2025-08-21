@@ -15,7 +15,7 @@ $class_names = 'class="hover:text-green-500 transition-colors duration-300"';
             </li>
             <?php if (isset($_SESSION['user']) && !empty($_SESSION['user']['id'])): ?>
                 <li>
-                    <a href="/users/profile" <?= $class_names ?> title="<?= __('profile_title') ?>"><?= __('hello') ?>, <?= $_SESSION['user']['first_name'] ?></a>
+                    <a href="/users/profile" <?= $class_names ?> title="<?= __('profile_title') ?>"><?= __('hello') ?>, <?= $_SESSION['user']['name'] ?></a>
                 </li>
                 <li>
                     <a href="/users/logout" <?= $class_names ?> title="<?= __('logout_title') ?>"><?= __('logout') ?></a>

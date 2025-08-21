@@ -7,6 +7,7 @@ use Core\Database;
 use App\Validations\UserValidator;
 
 use App\Repositories\UserRepository;
+use App\Services\UserService;
 
 class UserController
 {
@@ -54,32 +55,39 @@ class UserController
         View::redirect('/');
     }
 
-    private function generateCaptchaBase64(): string
+    public function getLogin(): void
     {
-        $captcha_code = substr(str_shuffle("ABCDEFGHJKLMNPQRSTUVWXYZ23456789"), 0, 5);
-        $_SESSION['captcha'] = $captcha_code;
+        // $captchaBase64 = $this->generateCaptchaBase64();
 
-        $width = 150;
-        $height = 50;
-        $image = imagecreate($width, $height);
+        View::render('users/login', [
+            'title' => 'Вход',
+            'captcha' => ''
+        ]);
+    }
 
-        $bg_color = imagecolorallocate($image, 255, 255, 255);
-        imagefill($image, 0, 0, $bg_color);
+    public function postLogin(): void
+    {
+        $data = $_POST;
 
-        $text_color = imagecolorallocate($image, 0, 0, 0);
-        $noise_color = imagecolorallocate($image, 100, 120, 180);
-
-        for ($i = 0; $i < 100; $i++) {
-            imagefilledellipse($image, rand(0, $width), rand(0, $height), 2, 3, $noise_color);
+        if ($error = UserValidator::validateLogin($data, $this->userRepository)) {
+            View::render('users/login', ['title' => 'Вход', 'error' => $error, 'captcha' => $this->generateCaptchaBase64()]);
+            return;
         }
 
-        imagestring($image, 5, 30, 15, $captcha_code, $text_color);
+        $user = $this->userRepository->findByEmail($data['email']);
+        UserService::generateTokenAndSaveSession($user);
 
-        ob_start();
-        imagepng($image);
-        $imageData = ob_get_clean();
-        imagedestroy($image);
+        View::redirect('/');
+    }
 
-        return 'data:image/png;base64,' . base64_encode($imageData);
+    public function getLogout(): void
+    {
+        UserService::logout();
+        View::redirect('/users/login');
+    }
+
+    private function generateCaptchaBase64(): string
+    {
+        return UserService::generateCaptchaBase64();
     }
 }
