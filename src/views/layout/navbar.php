@@ -1,7 +1,7 @@
 <?php
 
 require_once dirname(dirname(__DIR__)) . '/Helpers/languages.php';
-$class_names = 'class="hover:text-green-500 transition-colors duration-300"';
+$class_names = 'class="hover:text-blue-700 transition-colors duration-300"';
 ?>
 
 <div class="bg-white border border-gray-200 shadow">

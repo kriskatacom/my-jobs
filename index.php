@@ -41,8 +41,10 @@ $router->get('/dashboard', [DashboardController::class, 'index'], [IsInRole::cla
 $router->get('/dashboard/users', [UserController::class, 'getAll'], [IsInRole::class, 'admin']);
 $router->get('/dashboard/categories', [CategoryController::class, 'getAll'], [IsInRole::class, 'admin']);
 $router->get('/dashboard/categories/create', [CategoryController::class, 'getCreate'], [IsInRole::class, 'admin']);
+$router->get('/dashboard/categories/delete/{id}', [CategoryController::class, 'getDelete'], [IsInRole::class, 'admin']);
 
 $router->post('/dashboard/categories/create', [CategoryController::class, 'postCreate'], [IsInRole::class, 'admin']);
+$router->post('/dashboard/categories/delete/{id}', [CategoryController::class, 'postDelete'], [IsInRole::class, 'admin']);
 
 $router->post('/users/register', [UserController::class, 'postRegister'], [IsNotAuthenticated::class]);
 $router->post('/users/login', [UserController::class, 'postLogin'], [IsNotAuthenticated::class]);

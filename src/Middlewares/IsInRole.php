@@ -13,7 +13,7 @@ class IsInRole
 
     public function handle(): void
     {
-        if (!empty($_SESSION['user']) && $_SESSION['user']['role'] !== $this->role) {
+        if (empty($_SESSION['user']) || (!empty($_SESSION['user']) && $_SESSION['user']['role'] !== $this->role)) {
             header('Location: /');
             exit;
         }

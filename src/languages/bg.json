@@ -49,5 +49,8 @@
     "enter_category_description": "Напишете описание на категорията",
     "create_category": "Създаване на категория",
     "category_description": "Описание на категорията",
-    "category_image": "Снимка на категорията"
+    "category_image": "Снимка на категорията",
+    "delete_category": "Изтриване на категорията",
+    "category_deleted": "Категорията е изтрита успешно.",
+    "cancel": "Отказ"
 }

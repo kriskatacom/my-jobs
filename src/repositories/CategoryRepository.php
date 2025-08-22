@@ -75,6 +75,13 @@ class CategoryRepository
         return $category ?: null;
     }
 
+    public function deleteById(int $id): bool
+    {
+        $sql = "DELETE FROM job_categories WHERE id = :id";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([':id' => $id]);
+    }
+
     public function getCategoryCount(): int
     {
         $stmt = $this->db->query('SELECT COUNT(*) FROM job_categories');

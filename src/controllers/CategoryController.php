@@ -31,7 +31,8 @@ class CategoryController
         ]);
     }
 
-    public function postCreate(): void {
+    public function postCreate(): void
+    {
         $data = $_POST;
 
         if (!empty($_FILES['image'])) {
@@ -53,6 +54,34 @@ class CategoryController
     public function index()
     {
         View::render('category/listing', ['title' => __('categories')]);
+    }
+
+    public function getDelete(string $categoryId): void
+    {
+        $category = $this->categoryRepository->findById(intval($categoryId));
+
+        if (empty($category)) {
+            View::redirect('/dashboard/categories');
+            return;
+        }
+
+        View::render('dashboard/categories/delete', [
+            'title' => __('delete_category'),
+            'category' => $category,
+        ]);
+    }
+
+    public function postDelete(string $categoryId): void
+    {
+        $category = $this->categoryRepository->findById(intval($categoryId));
+
+        if (!empty($category)) {
+            $imageName = basename($category['icon_url']);
+            unlink('public/uploads/categories/' . $imageName);
+        }
+
+        $this->categoryRepository->deleteById(intval($categoryId));
+        View::redirect('/dashboard/categories');
     }
 
     public function getAll()
