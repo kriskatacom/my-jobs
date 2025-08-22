@@ -24,17 +24,21 @@
                         </thead>
                         <tbody>
                             <?php foreach ($users as $user): ?>
-                                <tr class="border-b hover:bg-gray-50">
+                                <tr class="border-b border-gray-200 hover:bg-gray-50">
                                     <td class="px-4 py-2"><?= $user['id'] ?></td>
                                     <td class="px-4 py-2"><?= htmlspecialchars($user['name']) ?></td>
                                     <td class="px-4 py-2"><?= htmlspecialchars($user['email']) ?></td>
-                                    <td class="px-4 py-2"><?= htmlspecialchars($user['role']) ?></td>
+                                    <td class="px-4 py-2"><?= __(htmlspecialchars($user['role'])) ?></td>
                                     <td class="px-4 py-2">
-                                        <a href="/dashboard/users/edit/<?= $user['id'] ?>"
-                                            class="text-blue-500 hover:underline"><?= __('edit') ?></a>
-                                        |
-                                        <a href="/dashboard/users/delete/<?= $user['id'] ?>"
-                                            class="text-red-500 hover:underline"><?= __('delete') ?></a>
+                                        <div class="relative inline-block text-left">
+                                            <select id="action-<?= $user['id'] ?>" 
+                                                    class="border border-gray-300 rounded px-3 py-2"
+                                                    onchange="if(this.value) { window.location.href=this.value; this.selectedIndex = 0; }">
+                                                <option value=""><?= __('select_action') ?></option>
+                                                <option value="/dashboard/users/edit/<?= $user['id'] ?>"><?= __('edit') ?></option>
+                                                <option value="/dashboard/users/delete/<?= $user['id'] ?>"><?= __('delete') ?></option>
+                                            </select>
+                                        </div>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

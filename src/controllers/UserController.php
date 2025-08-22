@@ -195,7 +195,7 @@ class UserController
 
     public function getAll(): void
     {
-        $perPage = 5;
+        $perPage = 10;
         $currentPage = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
         $offset = ($currentPage - 1) * $perPage;
         

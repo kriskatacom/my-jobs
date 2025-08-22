@@ -27,11 +27,19 @@ class CategoryController
 
     public function getAll()
     {
-        $categories = $this->categoryRepository->findAll();
+        $perPage = 10;
+        $currentPage = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+        $offset = ($currentPage - 1) * $perPage;
+        
+        $categories = $this->categoryRepository->findAll($perPage, $offset);
+        $totalCategories = $this->categoryRepository->getCategoryCount();
+        $totalPages = ceil($totalCategories / $perPage);
 
         View::render('/dashboard/categories/index', [
             'title' => __('categories'),
             'categories' => $categories,
+            'totalPages' => $totalPages,
+            'currentPage' => $currentPage,
         ]);
     }
 }

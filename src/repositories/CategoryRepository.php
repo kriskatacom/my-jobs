@@ -75,9 +75,22 @@ class CategoryRepository
         return $category ?: null;
     }
 
-    public function findAll(): bool|array
+    public function getCategoryCount(): int
     {
-        $stmt = $this->db->prepare('SELECT * FROM job_categories');
-        return $stmt->execute();
+        $stmt = $this->db->query('SELECT COUNT(*) FROM job_categories');
+        return (int) $stmt->fetchColumn();
+    }
+
+    public function findAll(int $limit, int $offset): bool|array
+    {
+        $stmt = $this->db->prepare('SELECT * FROM job_categories LIMIT :limit OFFSET :offset');
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        return false;
     }
 }
