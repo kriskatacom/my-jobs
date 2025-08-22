@@ -7,7 +7,10 @@
         <?php require 'src/views/layout/dashboard-navbar.php'; ?>
 
         <div class="w-full">
-            <h1 class="my-5 text-2xl"><?= __('categories') ?></h1>
+            <div class="flex justify-between items-center mr-5">
+                <h1 class="my-5 text-2xl"><?= __('categories') ?></h1>
+                <a href="/dashboard/categories/create" class="rounded-lg bg-blue-600 px-4 py-2 text-white font-semibold shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"><?= __('create') ?></a>
+            </div>
             <?php if (count($categories) === 0): ?>
                 <p class="text-center text-gray-500"><?= __('no_categories_found') ?></p>
             <?php else: ?>

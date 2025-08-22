@@ -42,5 +42,12 @@
     "actions": "Опции",
     "select_action": "Избиране на опция",
     "no_users_found": "Не са намерени потребители",
-    "no_categories_found": "Не са намерени категории"
+    "no_categories_found": "Не са намерени категории",
+    "create": "Създаване",
+    "enter_category_name": "Напишете заглавието на категорията",
+    "category_name": "Заглавие на категорията",
+    "enter_category_description": "Напишете описание на категорията",
+    "create_category": "Създаване на категория",
+    "category_description": "Описание на категорията",
+    "category_image": "Снимка на категорията"
 }

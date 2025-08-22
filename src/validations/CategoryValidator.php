@@ -18,10 +18,6 @@ class CategoryValidator
             return "Описанието не може да бъде по-дълго от 500 символа.";
         }
 
-        if (!empty($data['icon_url']) && !filter_var($data['icon_url'], FILTER_VALIDATE_URL)) {
-            return "Иконата трябва да бъде валиден URL.";
-        }
-
         return null;
     }
 }
