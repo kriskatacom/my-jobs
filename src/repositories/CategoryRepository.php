@@ -74,4 +74,10 @@ class CategoryRepository
 
         return $category ?: null;
     }
+
+    public function findAll(): bool|array
+    {
+        $stmt = $this->db->prepare('SELECT * FROM job_categories');
+        return $stmt->execute();
+    }
 }

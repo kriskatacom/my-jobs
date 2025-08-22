@@ -26,13 +26,15 @@ function isActive($path) {
                 </a>
             </li>
             <li class="border-b border-gray-200">
-                <a href="/dashboard/announcements" class="w-full block py-3 px-5 hover:bg-gray-200 <?= isActive('/dashboard/announcements') ?>">
+                <a href="/dashboard/announcements" class="pointer-events-none cursor-default w-full block py-3 px-5 hover:bg-gray-200 <?= isActive('/dashboard/announcements') ?>">
                     <?= __('announcements') ?>
+                    <span class="bg-gray-200 py-1 px-2 rounded-full">Скоро</span>
                 </a>
             </li>
             <li class="border-b border-gray-200">
-                <a href="/dashboard/settings" class="w-full block py-3 px-5 hover:bg-gray-200 <?= isActive('/dashboard/settings') ?>">
+                <a href="/dashboard/settings" class="pointer-events-none cursor-default w-full block py-3 px-5 hover:bg-gray-200 <?= isActive('/dashboard/settings') ?>">
                     <?= __('settings') ?>
+                    <span class="bg-gray-200 py-1 px-2 rounded-full">Скоро</span>
                 </a>
             </li>
         </ul>

@@ -11,8 +11,9 @@ use App\Middlewares\IsInRole;
 use App\Services\UserService;
 
 use App\Controllers\HomeController;
-use App\Controllers\UserController;
 use App\Controllers\DashboardController;
+use App\Controllers\UserController;
+use App\Controllers\CategoryController;
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -38,6 +39,7 @@ $router->get('/users/change-password/{token}', [UserController::class, 'getChang
 $router->get('/dashboard', [DashboardController::class, 'index'], [IsInRole::class, 'admin']);
 
 $router->get('/dashboard/users', [UserController::class, 'getAll'], [IsInRole::class, 'admin']);
+$router->get('/dashboard/categories', [CategoryController::class, 'getAll'], [IsInRole::class, 'admin']);
 
 $router->post('/users/register', [UserController::class, 'postRegister'], [IsNotAuthenticated::class]);
 $router->post('/users/login', [UserController::class, 'postLogin'], [IsNotAuthenticated::class]);
