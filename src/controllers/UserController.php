@@ -173,7 +173,7 @@ class UserController
             View::redirect('/users/reset-password');
         }
 
-        
+
         if (!$this->userRepository->updatePassword($user['id'])) {
             $_SESSION['message_error'] = __('password_change_failed');
             View::render('users/change-password', [
@@ -191,6 +191,15 @@ class UserController
     {
         UserService::logout();
         View::redirect('/users/login');
+    }
+
+    public function getAll(): void
+    {
+        $users = $this->userRepository->findAll();
+        View::render('/dashboard/users/index', [
+            'title' => __('users'),
+            'users' => $users,
+        ]);
     }
 
     private function generateCaptchaBase64(): string

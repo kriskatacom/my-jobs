@@ -117,4 +117,10 @@ class UserRepository
         $stmt = $pdo->query("SELECT COUNT(*) FROM users");
         return (int) $stmt->fetchColumn();
     }
+
+    public function findAll(): bool|array
+    {
+        $stmt = $this->db->prepare('SELECT * FROM users');
+        return $stmt->execute();
+    }
 }

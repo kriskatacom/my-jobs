@@ -25,5 +25,9 @@
     "email_send_failed": "Неуспешно изпращане на имейл.",
     "enter_code": "Въведете кода",
     "enter_image_code": "Въведете кода от изображението",
-    "account": "Профил"
+    "account": "Профил",
+    "dashboard": "Табло",
+    "administration": "Администрация",
+    "users": "Потребители",
+    "settings": "Настройки"
 }
