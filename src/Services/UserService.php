@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
-use App\Repositories\UserRepository;
 use Core\Database;
 use Core\JwtHelper;
+use App\Repositories\UserRepository;
 
 class UserService
 {
