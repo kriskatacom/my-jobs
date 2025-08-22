@@ -195,10 +195,19 @@ class UserController
 
     public function getAll(): void
     {
-        $users = $this->userRepository->findAll();
+        $perPage = 5;
+        $currentPage = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+        $offset = ($currentPage - 1) * $perPage;
+        
+        $users = $this->userRepository->findAll($perPage, $offset);
+        $totalUsers = $this->userRepository->getUserCount();
+        $totalPages = ceil($totalUsers / $perPage);
+
         View::render('/dashboard/users/index', [
             'title' => __('users'),
             'users' => $users,
+            'totalPages' => $totalPages,
+            'currentPage' => $currentPage,
         ]);
     }
 

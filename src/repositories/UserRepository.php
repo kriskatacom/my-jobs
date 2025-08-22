@@ -29,7 +29,7 @@ class UserRepository
 
 
 
-        $numberOfUsers = $this->getUserCount($this->db);
+        $numberOfUsers = $this->getUserCount();
         $role = $numberOfUsers === 0 ? 'admin' : 'user';
 
         $stmt = $this->db->prepare($sql);
@@ -112,15 +112,22 @@ class UserRepository
         ]);
     }
 
-    public function getUserCount(PDO $pdo): int
+    public function getUserCount(): int
     {
-        $stmt = $pdo->query("SELECT COUNT(*) FROM users");
+        $stmt = $this->db->query('SELECT COUNT(*) FROM users');
         return (int) $stmt->fetchColumn();
     }
 
-    public function findAll(): bool|array
+    public function findAll(int $limit, int $offset): bool|array
     {
-        $stmt = $this->db->prepare('SELECT * FROM users');
-        return $stmt->execute();
+        $stmt = $this->db->prepare('SELECT * FROM users LIMIT :limit OFFSET :offset');
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        return false;
     }
 }
